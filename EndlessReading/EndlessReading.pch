@@ -1,0 +1,27 @@
+//
+//  EndlessReading.pch
+//  EndlessReading
+//
+//  Created by Xiaodiao.Deng on 15/12/28.
+//  Copyright © 2015年 Satinno. All rights reserved.
+//
+
+#ifndef EndlessReading_pch
+#define EndlessReading_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
+#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
+#define SCREEN_MIN_LENGTH (MIN(SCREEN_WIDTH, SCREEN_HEIGHT))
+
+#import "WebServiceHttpClient.h"
+#import "SVProgressHUD.h"
+
+#define PAGESIZE 20
+
+#define BookrackUserDefaultKey  @"Bookrack key"
+
+#endif /* EndlessReading_pch */
