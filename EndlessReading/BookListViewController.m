@@ -22,6 +22,10 @@
 @end
 
 @implementation BookListViewController
+-(void)dealloc{
+    
+    [SVProgressHUD dismiss];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,7 +48,6 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
@@ -55,10 +58,12 @@
 
 - (void)getBookList{
     __weak BookListViewController *tmpSelf = self;
-    
+    [SVProgressHUD show];
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     if ([_categoryDict objectForKey:@"catalog_id"]) {
         [[WebServiceHttpClient sharedWebServiceHTTPClient] getBooksListCtalogWithParams:@{@"catalog_id":[_categoryDict objectForKey:@"catalog_id"], @"page":@(_currentPage), @"pagesize":@(PAGESIZE)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [tmpSelf getBookListSuccess:responseObject];
+            [SVProgressHUD dismiss];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error, NSString *errorMessage) {
             [SVProgressHUD showErrorWithStatus:errorMessage];
@@ -67,6 +72,7 @@
     else if (_isInterest){
         [[WebServiceHttpClient sharedWebServiceHTTPClient] getBooksRecommendListWithParams:@{@"list_type":@"interest"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [tmpSelf getBookListSuccess:responseObject];
+            [SVProgressHUD dismiss];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error, NSString *errorMessage) {
             [SVProgressHUD showErrorWithStatus:errorMessage];
         }];
@@ -75,7 +81,7 @@
     else{
         [[WebServiceHttpClient sharedWebServiceHTTPClient] getBooksChartsBookListWithParams:@{@"chart_key":[_categoryDict objectForKey:@"chart_key"], @"page":@(_currentPage), @"pagesize":@(PAGESIZE)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
             [tmpSelf getBookListSuccess:responseObject];
-            
+            [SVProgressHUD dismiss];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error, NSString *errorMessage) {
             [SVProgressHUD showErrorWithStatus:errorMessage];
         }];

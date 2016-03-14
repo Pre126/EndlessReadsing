@@ -13,11 +13,13 @@
 #import "BookListViewController.h"
 #import "DetailViewController.h"
 #import "HomeViewController.h"
-
+#import "CBAutoScrollLabel.h"
+#import "SVProgressHUD.h"
 @interface FoundViewController ()<TableviewSectionHeaderViewDelegate>
 
 {
     NSMutableArray *_foundArray;
+    __weak IBOutlet CBAutoScrollLabel *_autoScrollLabel;
     __weak IBOutlet UITableView *_tableView;
     __weak IBOutlet UIButton *_foundButton;
     __weak IBOutlet UIImageView *_trangleImageView;
@@ -61,9 +63,9 @@
     else{
         [_foundArray addObject:@{@"image":@"find_icon_tuijan.png", @"title":@"推荐", @"export":@(NO), @"data":@[]}];
     }
-    
+    [SVProgressHUD show];
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     _currentPage = 1;
-    
     [self getBooksCtalog];
     [self getBooksChartsList];
     [self getBooksRecommendList];
@@ -88,9 +90,24 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
     
+    [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self runHorse];
+
+}
+
+
+-(void)runHorse{
+    
+    _autoScrollLabel.text = @"中国人美国人犹太人一起喝饮料，三只苍蝇飞入他们饮料中，美国人重要了一杯，中国人没理会就喝下，犹太人一把抓出苍蝇大喊道：“吐出来！你丫把喝下去的饮料吐出来！”";
+    _autoScrollLabel.textColor = [UIColor lightGrayColor];
+    _autoScrollLabel.font = [UIFont systemFontOfSize:14.f];
+    _autoScrollLabel.labelSpacing = 35; // distance between start and end labels
+    _autoScrollLabel.pauseInterval = 3.7; // seconds of pause before scrolling starts again
+    _autoScrollLabel.scrollSpeed = 30; // pixels per second
+    _autoScrollLabel.textAlignment = NSTextAlignmentCenter; // centers text _autoScrollLabel no auto-scrolling is applied
+    _autoScrollLabel.fadeLength = 12.f; // length of the left and right edge fade, 0 to disable
 }
 
 - (void)getBooksChartsList{
@@ -98,6 +115,7 @@
     
     [[WebServiceHttpClient sharedWebServiceHTTPClient] getBooksChartsListWithParams:@{} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [tmpSelf getBooksChartsListSuccess:responseObject];
+//        [SVProgressHUD dismiss];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error, NSString *errorMessage) {
         [SVProgressHUD showErrorWithStatus:errorMessage];
     }];
@@ -114,12 +132,12 @@
 }
 
 
-
+#pragma mark - 获取小说分类
 - (void)getBooksCtalog{
     __weak FoundViewController *tmpSelf = self;
-    
     [[WebServiceHttpClient sharedWebServiceHTTPClient] getBooksCtalogWithParams:@{} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [tmpSelf getBooksCtalogSuccess:responseObject];
+//        [SVProgressHUD dismiss];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error, NSString *errorMessage) {
         [SVProgressHUD showErrorWithStatus:errorMessage];
     }];
@@ -137,9 +155,9 @@
 
 - (void)getBooksRecommendList{
     __weak FoundViewController *tmpSelf = self;
-    
     [[WebServiceHttpClient sharedWebServiceHTTPClient] getBooksRecommendListWithParams:@{@"list_type":@"recommend", @"page":@(_currentPage), @"page_size":@(PAGESIZE)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [tmpSelf getBooksRecommendListSuccess:responseObject];
+        [SVProgressHUD dismiss];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error, NSString *errorMessage) {
         [SVProgressHUD showErrorWithStatus:errorMessage];
     }];
@@ -162,6 +180,8 @@
     [_foundArray replaceObjectAtIndex:2 withObject:tmpDict];
     
     [_tableView reloadData];
+
+    
 }
 
  #pragma mark - Navigation

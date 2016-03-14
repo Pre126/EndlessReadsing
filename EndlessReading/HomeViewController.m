@@ -37,17 +37,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    _autoScrollLabel.text = @"测试滚动label测试滚动label测试滚动label测试滚动label测试滚动label 测试滚动label测试滚动label测试滚动label";
-//    _autoScrollLabel.textColor = [UIColor blueColor];
-//    _autoScrollLabel.labelSpacing = 35; // distance between start and end labels
-//    _autoScrollLabel.pauseInterval = 3.7; // seconds of pause before scrolling starts again
-//    _autoScrollLabel.scrollSpeed = 30; // pixels per second
-//    _autoScrollLabel.textAlignment = NSTextAlignmentCenter; // centers text _autoScrollLabel no auto-scrolling is applied
-//    _autoScrollLabel.fadeLength = 12.f; // length of the left and right edge fade, 0 to disable
-    
     _foundArray = [NSMutableArray new];
 }
-
 
 - (void)triangleAnimation{
     _trangleCenterConstraint.constant = 180;
@@ -70,15 +61,27 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
+    [SVProgressHUD dismiss];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-    
+    [self runHorse];//跑马灯
+
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     _homeArray = [userDefaults objectForKey:BookrackUserDefaultKey];
     
     [_tableView reloadData];
 }
 
+//跑马灯
+-(void)runHorse{
+    _autoScrollLabel.text = @"小美在作文簿里写上长大后的愿望：一、我希望能有一个可爱的孩子；二、我还希望能有一个爱我的丈夫。结果，发现老师写了一句评语：“请注意先后顺序。” ";
+    _autoScrollLabel.textColor = [UIColor lightGrayColor];
+    _autoScrollLabel.font = [UIFont systemFontOfSize:14.f];
+    _autoScrollLabel.labelSpacing = 35; // distance between start and end labels
+    _autoScrollLabel.pauseInterval = 3.7; // seconds of pause before scrolling starts again
+    _autoScrollLabel.scrollSpeed = 30; // pixels per second
+    _autoScrollLabel.textAlignment = NSTextAlignmentCenter; // centers text _autoScrollLabel no auto-scrolling is applied
+    _autoScrollLabel.fadeLength = 12.f; // length of the lef
+}
 
 
 - (void)getBookList{
@@ -103,7 +106,6 @@
             [SVProgressHUD showErrorWithStatus:errorMessage];
         }];
     }
-    
     
 }
 
@@ -163,6 +165,9 @@
     }
     else if (buttonIndex == 1) {
         buttonIndex = 1;
+    }
+    else{
+        return;
     }
     _exportIndex = buttonIndex;
     

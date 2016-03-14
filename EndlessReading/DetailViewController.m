@@ -11,6 +11,7 @@
 #import "BookListViewController.h"
 #import "ReadViewController.h"
 #import "NSString+Helper.h"
+#import "UIView+Helper.h"
 
 @interface DetailViewController ()
 {
@@ -52,10 +53,14 @@
 @end
 
 @implementation DetailViewController
-
+-(void)dealloc{
+    [SVProgressHUD dismiss];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+
     _rightButton.frame = CGRectMake(0, 0, 60, 30);
     
     self.title = [_bookDict objectForKey:@"book_name"];
@@ -88,9 +93,10 @@
 
 - (void)getBookDetail{
     __weak DetailViewController *tmpSelf = self;
-    
+    [SVProgressHUD show];
     [[WebServiceHttpClient sharedWebServiceHTTPClient] getBooksDetailWithParams:@{@"book_id":[_bookDict objectForKey:@"book_id"]} success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [tmpSelf getBookDetailSuccess:responseObject];
+        [SVProgressHUD dismiss];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error, NSString *errorMessage) {
         [SVProgressHUD showErrorWithStatus:errorMessage];
     }];
@@ -125,8 +131,6 @@
         ReadViewController *vc = segue.destinationViewController;
         vc.bookDict = self.bookDict;
     }
-    
-    
 }
 
 
@@ -146,7 +150,6 @@
         [userDefaults synchronize];
         
         [_addBookrackButton setTitle:@"放入书架" forState:UIControlStateNormal];
-        
         [SVProgressHUD showSuccessWithStatus:@"已移出你的书架"];
     }
     else{
@@ -156,6 +159,7 @@
         [userDefaults setObject:tmpArray forKey:BookrackUserDefaultKey];
         [userDefaults synchronize];
         [_addBookrackButton setTitle:@"移出书架" forState:UIControlStateNormal];
+//        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
         
         [SVProgressHUD showSuccessWithStatus:@"已放入你的书架"];
     }

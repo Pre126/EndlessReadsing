@@ -49,6 +49,9 @@
 
 @implementation ReadViewController
 
+-(void)dealloc{
+    [SVProgressHUD dismiss];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [[UIScreen mainScreen] setBrightness:0.5];
@@ -107,10 +110,12 @@
 - (void)getBookChapters{
     __weak ReadViewController *tmpSelf = self;
     
-    if (_isDownloading) {
+    if (!_isDownloading) {
+        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
         [SVProgressHUD show];
     }
     [[WebServiceHttpClient sharedWebServiceHTTPClient] getBooksChaptersWithParams:@{@"book_id":[_bookDict objectForKey:@"book_id"], @"alldata":@(1)} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [SVProgressHUD dismiss];
         [tmpSelf getBooksChaptersSuccess:responseObject];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error, NSString *errorMessage) {
         [SVProgressHUD showErrorWithStatus:errorMessage];
@@ -136,7 +141,7 @@
     NSString *fileName = [NSString stringWithFormat:@"%@%@.txt", [[_bookDict objectForKey:@"book_id"] description], chapterId];
     NSString *filePath = [[NSString saveFilePath] stringByAppendingPathComponent:fileName];
     
-    if (_isDownloading) {
+    if (!_isDownloading) {
         [_footerView setDownloadLabelText:[NSString stringWithFormat:@"%ld/%lu", (long)_haveDownloadNumber, (unsigned long)_chartArray.count]];
     }
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:nil]) {
@@ -265,6 +270,10 @@
         if (_isShowingTextView1) {
             _isShowingTextView1 = NO;
             
+            if (![_pageArray count]) {
+                [SVProgressHUD showErrorWithStatus:@"请检查网络并重试"];
+                return;
+            }
             _textView2.text = [_pageArray objectAtIndex:_currentPage];
             _textView2.frame = CGRectMake(-CGRectGetWidth(self.view.frame), 30, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
             
@@ -337,6 +346,10 @@
         }
         else{
             _isShowingTextView1 = YES;
+            if (![_pageArray count]) {
+                [SVProgressHUD showErrorWithStatus:@"请检查网络并重试"];
+                return;
+            }
             
             _textView1.text = [_pageArray objectAtIndex:_currentPage];
             _textView1.frame = CGRectMake(CGRectGetWidth(self.view.frame), 30, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
@@ -431,7 +444,7 @@
 }
 
 - (void)yellowButtonClicked{
-    UIColor *backColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"yellowbackground.jpg"]];
+    UIColor *backColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"yellowbackground.png"]];
     
     _textView1.backgroundColor = backColor;
     _textView2.backgroundColor = backColor;
@@ -519,6 +532,9 @@
         [userDefaults synchronize];
         
         [SVProgressHUD showSuccessWithStatus:@"已放入你的书架"];
+    }
+    else{
+         [self.navigationController popViewControllerAnimated:YES];
     }
 }
 @end
