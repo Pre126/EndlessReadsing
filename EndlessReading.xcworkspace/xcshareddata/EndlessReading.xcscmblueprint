@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "0822F9972CE00668AC726CE5BE2D5E83736529D4",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "0822F9972CE00668AC726CE5BE2D5E83736529D4" : 0,
+    "855166A367C2E35BFB3236BCEBF219827052B195" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "1ADD156B-812B-4AA9-AC5C-ACF1E9502751",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "0822F9972CE00668AC726CE5BE2D5E83736529D4" : "EndlessReading%20in%20GitHub\/",
+    "855166A367C2E35BFB3236BCEBF219827052B195" : ""
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "EndlessReading",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "EndlessReading.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Pre126\/EndlessReadsing.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0822F9972CE00668AC726CE5BE2D5E83736529D4"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "gitlab.adsage.com:liwei3\/game-1010.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "855166A367C2E35BFB3236BCEBF219827052B195"
+    }
+  ]
+}

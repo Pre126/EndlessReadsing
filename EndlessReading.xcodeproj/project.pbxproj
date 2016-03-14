@@ -1159,7 +1159,7 @@
 				INFOPLIST_FILE = EndlessReading/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.General.EndlessReading;
+				PRODUCT_BUNDLE_IDENTIFIER = com.satinno.ent.EndlessReading;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1177,7 +1177,7 @@
 				INFOPLIST_FILE = EndlessReading/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.General.EndlessReading;
+				PRODUCT_BUNDLE_IDENTIFIER = com.satinno.ent.EndlessReading;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7afac44e-db78-4e94-b853-0b92e0706ade";
 			};
